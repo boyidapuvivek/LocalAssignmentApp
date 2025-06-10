@@ -8,6 +8,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
+import { BookmarkProvider } from "@/contexts/BookmarkContext";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function RootLayout() {
@@ -25,14 +26,20 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen
-          name='(tabs)'
-          options={{ headerShown: false }}
-        />
-      </Stack>
-      <StatusBar style='auto' />
-    </ThemeProvider>
+    <BookmarkProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen
+            name='(tabs)'
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name='job/[id]'
+            options={{ headerShown: false }}
+          />
+        </Stack>
+        <StatusBar style='auto' />
+      </ThemeProvider>
+    </BookmarkProvider>
   );
 }

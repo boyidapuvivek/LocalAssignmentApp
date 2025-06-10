@@ -1,41 +1,58 @@
 import Back from "@/assets/images/back.svg";
 import Colors from "@/constants/Colors";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+import React, { ReactNode } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
   showback?: boolean;
   title: string;
+  children?: ReactNode;
 };
 
-const Header = ({ showback, title }: Props) => {
+const Header = ({ showback, title, children }: Props) => {
+  const router = useRouter();
+
+  const handlePress = () => {
+    router.back();
+  };
+
   return (
-    <View style={styles.container}>
-      {showback && (
-        <Back
-          height={24}
-          width={24}
-        />
-      )}
-      <Text style={styles.text}>{title}</Text>
+    <View style={styles.maincontainer}>
+      <View style={styles.container}>
+        {showback && (
+          <TouchableOpacity onPress={handlePress}>
+            <Back
+              height={24}
+              width={24}
+            />
+          </TouchableOpacity>
+        )}
+        <Text style={styles.text}>{title}</Text>
+      </View>
+      {children}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: 60,
-    width: "100%",
+  maincontainer: {
     flexDirection: "row",
-    justifyContent: "start",
-    alignItems: "center",
+    width: "100%",
     marginTop: 40,
-    gap: 20,
+    gap: 10,
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   text: {
     fontFamily: "poppins-bold",
     fontSize: 25,
     color: Colors.primary,
+    marginLeft: 10,
   },
 });
 

@@ -18,10 +18,9 @@ const HomeScreen = () => {
       const res = await fetch(
         `https://testapi.getlokalapp.com/common/jobs?page=${page}`
       );
+
       const data = await res.json();
-      console.log("❤️", data);
       if (data?.results?.length) {
-        // Filter out any invalid/empty job items
         const validJobs = data.results.filter(
           (job) => job && (job.title || job.job_role || job.company_name)
         );
@@ -67,7 +66,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     backgroundColor: Colors.white,
   },
 });
