@@ -4,9 +4,8 @@ import Location from "@/assets/images/location.svg";
 import Phone from "@/assets/images/phone.svg";
 import Salary from "@/assets/images/rupee.svg";
 import Colors from "@/constants/Colors";
-import { useRouter } from "expo-router";
-
 import { useBookmark } from "@/contexts/BookmarkContext";
+import { useRouter } from "expo-router";
 import React from "react";
 import {
   Animated,
@@ -34,14 +33,13 @@ type Props = {
 
 const JobCard = ({ data }: Props) => {
   const router = useRouter();
-
   const { toggleBookmark, isBookmarked } = useBookmark();
   const scaleAnim = React.useRef(new Animated.Value(1)).current;
 
-  const jobTitle = data?.job_role || data?.company_name || "NA";
-  const location = data?.primary_details?.Place || "NA";
-  const salary = data?.primary_details?.Salary || "NA";
-  const phone = data?.whatsapp_no || "NA";
+  const jobTitle = data?.job_role || data?.company_name || "Not specified";
+  const location = data?.primary_details?.Place || "Not specified";
+  const salary = data?.primary_details?.Salary || "Not specified";
+  const phone = data?.whatsapp_no || "Not specified";
 
   const handlePress = () => {
     router.push({
@@ -67,49 +65,75 @@ const JobCard = ({ data }: Props) => {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress}>
-      <View style={styles.container}>
+    <TouchableOpacity
+      onPress={handlePress}
+      activeOpacity={0.9}
+      style={styles.container}>
+      <View style={styles.card}>
         <View style={styles.header}>
-          <Text style={styles.title}>{jobTitle}</Text>
-          <TouchableOpacity onPress={handleBookmarkPress}>
+          <Text
+            style={styles.title}
+            numberOfLines={1}>
+            {jobTitle}
+          </Text>
+          <TouchableOpacity
+            onPress={handleBookmarkPress}
+            hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
             <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
               {isBookmarked(data.id) ? (
                 <BookmarkFilledIcon
                   width={24}
                   height={24}
+                  color={Colors.primary}
                 />
               ) : (
                 <BookmarkIcon
                   width={24}
                   height={24}
+                  color={Colors.gray500}
                 />
               )}
             </Animated.View>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.row}>
+        <View style={styles.detailRow}>
           <Location
-            width={20}
-            height={20}
+            width={18}
+            height={18}
+            color={Colors.primary}
           />
-          <Text style={styles.text}>{location}</Text>
+          <Text
+            style={styles.detailText}
+            numberOfLines={1}>
+            {location}
+          </Text>
         </View>
 
-        <View style={styles.row}>
+        <View style={styles.detailRow}>
           <Salary
-            width={20}
-            height={20}
+            width={18}
+            height={18}
+            color={Colors.primary}
           />
-          <Text style={styles.text}>{salary}</Text>
+          <Text
+            style={styles.detailText}
+            numberOfLines={1}>
+            {salary}
+          </Text>
         </View>
 
-        <View style={styles.row}>
+        <View style={styles.detailRow}>
           <Phone
-            width={20}
-            height={20}
+            width={18}
+            height={18}
+            color={Colors.primary}
           />
-          <Text style={styles.text}>{phone}</Text>
+          <Text
+            style={styles.detailText}
+            numberOfLines={1}>
+            {phone}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -118,33 +142,41 @@ const JobCard = ({ data }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    padding: 16,
-    backgroundColor: Colors.transparent,
-    borderRadius: 18,
-    gap: 10,
-    marginBottom: 12,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: Colors.gray100,
+    borderRadius: 16,
   },
-  title: {
-    fontFamily: "poppins-semibold",
-    fontSize: 18,
-    color: Colors.darktext,
-    marginBottom: 4,
+  card: {
+    backgroundColor: Colors.white,
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 2,
+    borderColor: Colors.gray300,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 12,
   },
-  row: {
+  title: {
+    fontFamily: "poppins-semibold",
+    fontSize: 16,
+    color: Colors.darkText,
+    flex: 1,
+    marginRight: 12,
+  },
+  detailRow: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 12,
+    marginBottom: 8,
   },
-  text: {
+  detailText: {
     fontFamily: "poppins-regular",
-    fontSize: 16,
-    color: Colors.grey,
+    fontSize: 14,
+    color: Colors.gray700,
     flex: 1,
   },
 });

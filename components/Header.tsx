@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   maincontainer: {
     flexDirection: "row",
     width: "100%",
-    marginTop: 40,
+    marginTop: 50,
     gap: 10,
     alignItems: "center",
     justifyContent: "space-between",

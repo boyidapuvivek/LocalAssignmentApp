@@ -10,19 +10,26 @@ export default function BookmarkScreen() {
   return (
     <View style={styles.container}>
       <Header
-        title='Bookmarks'
+        title='Saved Jobs'
         showback={true}
+        style={styles.header}
       />
+
       {bookmarkedJobs.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No bookmarked jobs yet</Text>
+          <Text style={styles.emptyTitle}>No saved jobs yet</Text>
+          <Text style={styles.emptySubtitle}>
+            Tap the bookmark icon on jobs to save them here
+          </Text>
         </View>
       ) : (
         <FlatList
           data={bookmarkedJobs}
           renderItem={({ item }) => <JobCard data={item} />}
           keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={styles.list}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
       )}
     </View>
@@ -32,17 +39,41 @@ export default function BookmarkScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.background,
+    paddingHorizontal: 20,
   },
-  list: {
-    padding: 16,
+  header: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+    paddingBottom: 8,
+  },
+  listContent: {
+    paddingTop: 8,
+    paddingBottom: 24,
   },
   emptyContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 40,
   },
-  emptyText: {
-    fontSize: 16,
-    color: Colors.grey,
+  emptyTitle: {
+    fontFamily: "poppins-semibold",
+    fontSize: 18,
+    color: Colors.darkText,
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  emptySubtitle: {
+    fontFamily: "poppins-regular",
+    fontSize: 14,
+    color: Colors.gray600,
+    textAlign: "center",
+    lineHeight: 22,
+  },
+  separator: {
+    height: 12,
   },
 });
+
+export default BookmarkScreen;
